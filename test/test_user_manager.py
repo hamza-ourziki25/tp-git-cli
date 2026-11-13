@@ -11,6 +11,7 @@ def test_add_user():
 def test_add_existing_user():
     manager = UserManager()
     manager.add_user("adam")
+
     with pytest.raises(ValueError):
         manager.add_user("adam")
 
@@ -24,5 +25,6 @@ def test_remove_user():
 
 def test_remove_unknown_user():
     manager = UserManager()
+    
     with pytest.raises(ValueError):
         manager.remove_user("saad")
