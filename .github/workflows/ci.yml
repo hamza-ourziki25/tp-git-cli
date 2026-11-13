@@ -1,45 +1,53 @@
-name:CLi-git
+name: CI-git
 
 on:
- push:
-  branches:
-   - main
+  push:
+    branches:
+      - main
 
- pull_request:
-  branches:
-   - main 
+  pull_request:
+    branches:
+      - main
 
- workflow_dispatch:
+  workflow_dispatch:
 
 jobs:
- build:
-  runs-on: ubuntu-latest
-  steps:
-   - uses: actions/checkout@v4
-   - uses:  actions/setup-python@v5
-     with:
-      python-version : '3.11' 
-   - name: Install Dependance
-   - run:| 
-      pip install -r requirements.txt
-   - name: Use flake8
-   - run:|
-     flake8 app --count --select=E9,F63,F7,F82,F841 --show-source --statistics
-     flake8 app --count --max-complexity=10 --max-line-length=127 --statistics
-     flake8 app --count --max-line-length=127 --statistics
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Flake8
+        run: |
+          flake8 app --count --select=E9,F63,F7,F82,F841 --show-source --statistics
+          flake8 app --count --max-complexity=10 --max-line-length=127 --statistics
+          flake8 app --count --max-line-length=127 --statistics
 
   test:
-  needs:build
-  runs-on: ubuntu-latest
-  steps:
-    - uses: actions/checkout@v4
-    - uses:  actions/setup-python@v5
-      with:
-        python-version : '3.11' 
-    - name: Install Dependance
-    - run:| 
-      pip install -r requirements.txt
-    - name: run les test 
-    -run:|
-    python -v --cov==app
- 
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run tests
+        run: pytest -v --cov=app
