@@ -28,18 +28,18 @@ jobs:
      flake8 app --count --max-complexity=10 --max-line-length=127 --statistics
      flake8 app --count --max-line-length=127 --statistics
 
-test:
- needs:build
- runs-on: ubuntu-latest
- steps:
-  - uses: actions/checkout@v4
-  - uses:  actions/setup-python@v5
-     with:
-      python-version : '3.11' 
-  - name: Install Dependance
-  - run:| 
-     pip install -r requirements.txt
-  - name: run les test 
-  -run:|
-   python -v --cov==app
+  test:
+  needs:build
+  runs-on: ubuntu-latest
+  steps:
+    - uses: actions/checkout@v4
+    - uses:  actions/setup-python@v5
+      with:
+        python-version : '3.11' 
+    - name: Install Dependance
+    - run:| 
+      pip install -r requirements.txt
+    - name: run les test 
+    -run:|
+    python -v --cov==app
  
